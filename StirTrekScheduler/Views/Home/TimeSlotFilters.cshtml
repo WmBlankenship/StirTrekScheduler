@@ -1,0 +1,12 @@
+﻿@model List<StirTrekScheduler.Models.TimeSlotFilter>
+@{
+    ViewBag.Title = "TimeSlotFilters";
+}
+
+@foreach (var timeSlot in Model)
+{
+    @Html.CheckBoxFor(t => timeSlot.IsSelected)
+    <label for="timeSlot.Id" style="font-weight: normal; font-size: small;">@timeSlot.StartTime.ToString("t") - @timeSlot.EndTime.ToString("t")</label>
+    <br />
+}
+

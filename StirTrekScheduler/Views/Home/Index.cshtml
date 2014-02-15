@@ -1,0 +1,52 @@
+﻿@model StirTrekScheduler.Models.SchedulerViewModel
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Stir Trek Scheduler</h1>
+    <p class="lead">This app will help you navigate the Stir Trek sessions.</p>
+    <p><a href="http://stirtrek.com" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+</div>
+@using (Html.BeginForm("Index", "Home", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-lg-2" style="font-weight:lighter;">
+
+            @Html.Label("Tracks:")
+            <br />
+            @Html.Partial("TrackFilters", Model.TrackFilters)
+
+            @Html.Label("Time Slots:")
+            <br />
+            @Html.Partial("TimeSlotFilters", Model.TimeSlotFilters)
+            <input type="submit" value="Filter" class="btn btn-primary btn-sm" />
+        </div>
+        <div class="col-lg-10">
+            @foreach (var session in Model.Sessions)
+            {
+                <fieldset style="border: 1px solid gray; padding: 0 15px 15px 15px; border-radius:5px;">
+                    <legend style="font-weight:bold;">
+                        @Html.DisplayFor(n => session.Name)
+                    </legend>
+                    <div style="margin-top: -10px; font-weight:bold;">
+                        @foreach (var speaker in session.Speakers)
+                        {
+                            @Html.DisplayFor(s => speaker)
+                        }
+                    </div>
+                    <div>
+                        @Html.DisplayFor(d => session.DisplayTime)
+                    </div>
+                    <div style="margin: 10px 0 15px 0;">
+                        @Html.DisplayFor(a => session.Abstract)
+                    </div>
+                    <div style="font-weight: bold;">
+                        @Html.DisplayFor(t => session.Track)
+                    </div>
+                </fieldset>
+                <br />
+            }
+        </div>
+    </div>
+}

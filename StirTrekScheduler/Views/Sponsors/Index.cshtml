@@ -1,0 +1,21 @@
+﻿@model List<StirTrekScheduler.Models.Sponsor>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h1>Sponsors</h1>
+
+<div>
+    @foreach (var sponsor in Model)
+    {
+        <h3>
+            @Html.DisplayFor(s => sponsor.Name)<br />
+        </h3>
+        <p>
+            @Html.DisplayFor(d => sponsor.Description);
+            <br/><br/>
+        </p>
+    }
+</div>
+

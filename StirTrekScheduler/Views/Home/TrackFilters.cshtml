@@ -1,0 +1,12 @@
+﻿@model List<StirTrekScheduler.Models.TrackFilter>
+   
+@{
+ViewBag.Title = "TrackFilters";
+}
+
+@foreach (var track in Model)
+{
+    @Html.CheckBoxFor(t => track.IsSelected)
+    <label for="track.Id" style="font-weight: normal; font-size: small;">@track.Name</label>
+    <br />
+}
