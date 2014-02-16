@@ -66,24 +66,21 @@ namespace StirTrekScheduler.Controllers
 
         private SchedulerViewModel GetSchedulerViewModel()
         {
-            var schedulerViewModel = new SchedulerViewModel();
-
-            schedulerViewModel.Sessions = GetSessionViewModel();
-            schedulerViewModel.TrackFilters = _trackFilters;
-            schedulerViewModel.TimeSlotFilters = _timeSlotFitlers;
-
-            return schedulerViewModel;
+            return new SchedulerViewModel
+            {
+                Sessions = GetSessionViewModel().OrderBy(s => s.StartTime).ToList(),
+                TrackFilters = _trackFilters,
+                TimeSlotFilters = _timeSlotFitlers.OrderBy(t => t.StartTime).ToList()
+            };
         }
 
-        private List<SessionViewModel> GetSessionViewModel()
+        private IEnumerable<SessionViewModel> GetSessionViewModel()
         {
-            var sessionViewModels = new List<SessionViewModel>();
-
             foreach (var session in _sessions)
             {
                 var timeSlot = GetTimeSlotForSession(session);
 
-                sessionViewModels.Add(new SessionViewModel
+                yield return (new SessionViewModel
                 {
                     Id = session.Id,
                     Name = session.Name,
@@ -94,19 +91,19 @@ namespace StirTrekScheduler.Controllers
                     TrackName = GetTrackNameForSession(session)
                 });
             }
-
-            return sessionViewModels.OrderBy(s => s.StartTime).ToList();
         }
 
         private TimeSlot GetTimeSlotForSession(Session session)
-        { 
-            return _timeSlots.Where(t => t.Id == session.TimeSlotId).FirstOrDefault();
+        {
+            return _timeSlots
+                .Where(t => t.Id == session.TimeSlotId)
+                .FirstOrDefault();
         }
 
-        private string  GetTrackNameForSession(Session session)
+        private string GetTrackNameForSession(Session session)
         {
-            return (session.TrackId > 0 
-                ? _tracks.Where(t => t.Id == session.TrackId).FirstOrDefault().Name 
+            return (session.TrackId > 0
+                ? _tracks.Where(t => t.Id == session.TrackId).FirstOrDefault().Name
                 : string.Empty);
         }
 
@@ -115,11 +112,11 @@ namespace StirTrekScheduler.Controllers
             foreach (int id in speakerIds)
             {
                 yield return (from s in _speakers
-                             where s.Id == id
-                             select s.Name).FirstOrDefault();
+                              where s.Id == id
+                              select s.Name).FirstOrDefault();
             }
         }
-        
+
         private void GetTimeSlotFilters()
         {
             foreach (var timeSlot in _timeSlots)

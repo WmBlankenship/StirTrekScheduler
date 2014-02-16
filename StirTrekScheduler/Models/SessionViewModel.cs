@@ -13,7 +13,7 @@ namespace StirTrekScheduler.Models
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public List<string> Speakers { get; set; }
-        public string Track { get; set; }
+        public string TrackName { get; set; }
 
         public string DisplayTime
         {
