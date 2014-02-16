@@ -109,12 +109,9 @@ namespace StirTrekScheduler.Controllers
 
         private IEnumerable<string> GetSpeakerNameList(List<int> speakerIds)
         {
-            foreach (int id in speakerIds)
-            {
-                yield return (from s in _speakers
-                              where s.Id == id
-                              select s.Name).FirstOrDefault();
-            }
+            yield return (from s in _speakers
+                          where speakerIds.Contains(s.Id)
+                          select s.Name).FirstOrDefault();
         }
 
         private void GetTimeSlotFilters()
