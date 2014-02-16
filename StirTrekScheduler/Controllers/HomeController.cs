@@ -81,7 +81,7 @@ namespace StirTrekScheduler.Controllers
 
             foreach (var session in _sessions)
             {
-                var timeSlot = _timeSlots.Where(t => t.Id == session.TimeSlotId).FirstOrDefault();
+                var timeSlot = GetTimeSlotForSession(session);
 
                 sessionViewModels.Add(new SessionViewModel
                 {
@@ -90,26 +90,34 @@ namespace StirTrekScheduler.Controllers
                     Abstract = session.Abstract,
                     StartTime = timeSlot.StartTime,
                     EndTime = timeSlot.EndTime,
-                    Speakers = GetSpeakerNameList(session.SpeakerIds),
-                    Track = session.TrackId > 0 ? _tracks.Where(t => t.Id == session.TrackId).FirstOrDefault().Name : string.Empty
+                    Speakers = GetSpeakerNameList(session.SpeakerIds).ToList(),
+                    TrackName = GetTrackNameForSession(session)
                 });
             }
 
             return sessionViewModels.OrderBy(s => s.StartTime).ToList();
         }
 
-        private List<string> GetSpeakerNameList(List<int> speakerIds)
-        {
-            var speakerNames = new List<string>();
+        private TimeSlot GetTimeSlotForSession(Session session)
+        { 
+            return _timeSlots.Where(t => t.Id == session.TimeSlotId).FirstOrDefault();
+        }
 
+        private string  GetTrackNameForSession(Session session)
+        {
+            return (session.TrackId > 0 
+                ? _tracks.Where(t => t.Id == session.TrackId).FirstOrDefault().Name 
+                : string.Empty);
+        }
+
+        private IEnumerable<string> GetSpeakerNameList(List<int> speakerIds)
+        {
             foreach (int id in speakerIds)
             {
-                speakerNames.Add((from s in _speakers
-                                 where s.Id == id
-                                 select s.Name).FirstOrDefault());
+                yield return (from s in _speakers
+                             where s.Id == id
+                             select s.Name).FirstOrDefault();
             }
-
-            return speakerNames;
         }
         
         private void GetTimeSlotFilters()
