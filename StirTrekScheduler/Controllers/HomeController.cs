@@ -31,7 +31,7 @@ namespace StirTrekScheduler.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(FormCollection model)
+        public ActionResult Index(SchedulerViewModel model)
         {
             //_trackFilters = model.TrackFilters;
             //_timeSlotFitlers = model.TimeSlotFilters;

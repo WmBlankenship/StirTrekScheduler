@@ -8,18 +8,18 @@
     <p class="lead">This app will help you navigate the Stir Trek sessions.</p>
     <p><a href="http://stirtrek.com" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
 </div>
-@using (Html.BeginForm("Index", "Home", FormMethod.Post))
+@using (Html.BeginForm("Index", "Home", @Model, FormMethod.Post))
 {
     <div class="row">
         <div class="col-lg-2" style="font-weight:lighter;">
 
             @Html.Label("Tracks:")
             <br />
-            @Html.Partial("TrackFilters", Model.TrackFilters)
+            @Html.EditorFor(m => Model.TrackFilters, "TrackFilters")
 
             @Html.Label("Time Slots:")
             <br />
-            @Html.Partial("TimeSlotFilters", Model.TimeSlotFilters)
+            @Html.EditorFor(m => Model.TimeSlotFilters, "TimeSlotFilters")
             <input type="submit" value="Filter" class="btn btn-primary btn-sm" />
         </div>
         <div class="col-lg-10">
@@ -42,7 +42,7 @@
                         @Html.DisplayFor(a => session.Abstract)
                     </div>
                     <div style="font-weight: bold;">
-                        @Html.DisplayFor(t => session.Track)
+                        @Html.DisplayFor(t => session.TrackName)
                     </div>
                 </fieldset>
                 <br />

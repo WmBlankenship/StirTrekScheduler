@@ -228,13 +228,12 @@
     <Content Include="Views\Account\Manage.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Home\TimeSlotFilters.cshtml" />
-    <Content Include="Views\Home\TrackFilters.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\TimeSlotFilters.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\TrackFilters.cshtml" />
     <Content Include="Views\Sponsors\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Shared\EditorTemplates\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
